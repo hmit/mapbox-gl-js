@@ -12,6 +12,14 @@ var path = require('path');
 var vt = new VectorTile(new Protobuf(new Uint8Array(fs.readFileSync(path.join(__dirname, '/../../fixtures/mbsv5-6-18-23.vector.pbf')))));
 var feature = vt.layers.water.feature(0);
 
+function createFeature(points) {
+    return {
+        loadGeometry: function() {
+            return [points];
+        }
+    };
+}
+
 test('FillBucket', function(t) {
     // Suppress console.warn output.
     var warn = console.warn;
@@ -23,16 +31,16 @@ test('FillBucket', function(t) {
     });
     t.ok(bucket);
 
-    t.equal(bucket.addFill([
+    t.equal(bucket.addFeature(createFeature([
         new Point(0, 0),
         new Point(10, 10)
-    ]), undefined);
+    ])), undefined);
 
-    t.equal(bucket.addFill([
+    t.equal(bucket.addFeature(createFeature([
         new Point(0, 0),
         new Point(10, 10),
         new Point(10, 20)
-    ]), undefined);
+    ])), undefined);
 
     t.equal(bucket.addFeature(feature), undefined);
 
