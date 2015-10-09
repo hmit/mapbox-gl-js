@@ -111,7 +111,7 @@ SymbolBucket.prototype.shaders = {
     }
 };
 
-SymbolBucket.prototype.addFeatures = function(collisionTile, stacks, icons) {
+SymbolBucket.prototype.addFeatures = function(features, collisionTile, stacks, icons) {
     var tileSize = 512 * this.overscaling;
     var tileExtent = 4096;
     this.tilePixelRatio = tileExtent / tileSize;
@@ -119,7 +119,6 @@ SymbolBucket.prototype.addFeatures = function(collisionTile, stacks, icons) {
     this.symbolInstances = [];
 
     var layout = this.layoutProperties;
-    var features = this.features;
     var textFeatures = this.textFeatures;
 
     var horizontalAlign = 0.5,
@@ -441,22 +440,22 @@ SymbolBucket.prototype.addSymbols = function(shaderName, quads, scale, keepUprig
 
 };
 
-SymbolBucket.prototype.updateIcons = function(icons) {
+SymbolBucket.prototype.updateIcons = function(features, icons) {
     var iconValue = this.layoutProperties['icon-image'];
     if (!iconValue) return;
 
-    for (var i = 0; i < this.features.length; i++) {
-        var iconName = resolveTokens(this.features[i].properties, iconValue);
+    for (var i = 0; i < features.length; i++) {
+        var iconName = resolveTokens(features[i].properties, iconValue);
         if (iconName)
             icons[iconName] = true;
     }
 };
 
-SymbolBucket.prototype.updateFont = function(stacks) {
+SymbolBucket.prototype.updateFont = function(features, stacks) {
     var fontName = this.layoutProperties['text-font'],
         stack = stacks[fontName] = stacks[fontName] || {};
 
-    this.textFeatures = resolveText(this.features, this.layoutProperties, stack);
+    this.textFeatures = resolveText(features, this.layoutProperties, stack);
 };
 
 SymbolBucket.prototype.addToDebugBuffers = function(collisionTile) {

@@ -65,8 +65,7 @@ test('Bucket', function(t) {
     t.test('add features', function(t) {
         var builder = create();
 
-        builder.features = [createFeature(17, 42)];
-        builder.addFeatures();
+        builder.addFeatures([createFeature(17, 42)]);
 
         var testVertex = builder.buffers.testVertex;
         t.equal(testVertex.type, Buffer.BufferType.VERTEX);
@@ -89,8 +88,7 @@ test('Bucket', function(t) {
     t.test('reset buffers', function(t) {
         var builder = create();
 
-        builder.features = [createFeature(17, 42)];
-        builder.addFeatures();
+        builder.addFeatures([createFeature(17, 42)]);
 
         var buffers = {};
         builder.resetBuffers(buffers);
@@ -106,11 +104,9 @@ test('Bucket', function(t) {
     t.test('add features after resetting buffers', function(t) {
         var builder = create();
 
-        builder.features = [createFeature(1, 5)];
-        builder.addFeatures();
+        builder.addFeatures([createFeature(1, 5)]);
         builder.resetBuffers({});
-        builder.features = [createFeature(17, 42)];
-        builder.addFeatures();
+        builder.addFeatures([createFeature(17, 42)]);
 
         var testVertex = builder.buffers.testVertex;
         t.equal(testVertex.length, 1);

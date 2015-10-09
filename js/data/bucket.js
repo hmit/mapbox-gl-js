@@ -80,9 +80,9 @@ function Bucket(options) {
  * Build the buffers! Features are set directly to the `features` property.
  * @private
  */
-Bucket.prototype.addFeatures = function() {
-    for (var i = 0; i < this.features.length; i++) {
-        this.addFeature(this.features[i]);
+Bucket.prototype.addFeatures = function(features) {
+    for (var i = 0; i < features.length; i++) {
+        this.addFeature(features[i]);
     }
 };
 
