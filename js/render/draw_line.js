@@ -104,8 +104,8 @@ module.exports = function drawLine(painter, layer, posMatrix, tile) {
         gl.uniformMatrix2fv(shader.u_antialiasingmatrix, false, antialiasingMatrix);
 
     } else if (image) {
-        var imagePosA = painter.spriteAtlas.getPosition(image.from, true);
-        var imagePosB = painter.spriteAtlas.getPosition(image.to, true);
+        var imagePosA = painter.spriteAtlas.getPattern(image.from);
+        var imagePosB = painter.spriteAtlas.getPattern(image.to);
         if (!imagePosA || !imagePosB) return;
         var factor = tile.tileExtent / tile.tileSize / Math.pow(2, painter.transform.tileZoom - tile.coord.z) * overscaling;
 
@@ -118,8 +118,8 @@ module.exports = function drawLine(painter, layer, posMatrix, tile) {
         gl.uniform1f(shader.u_ratio, ratio);
         gl.uniform1f(shader.u_blur, blur);
 
-        gl.uniform2fv(shader.u_pattern_size_a, [imagePosA.size[0] * factor * image.fromScale, imagePosB.size[1] ]);
-        gl.uniform2fv(shader.u_pattern_size_b, [imagePosB.size[0] * factor * image.toScale, imagePosB.size[1] ]);
+        gl.uniform2fv(shader.u_pattern_size_a, [imagePosA.width * factor * image.fromScale, imagePosB.height]);
+        gl.uniform2fv(shader.u_pattern_size_b, [imagePosB.width * factor * image.toScale, imagePosB.height]);
         gl.uniform2fv(shader.u_pattern_tl_a, imagePosA.tl);
         gl.uniform2fv(shader.u_pattern_br_a, imagePosA.br);
         gl.uniform2fv(shader.u_pattern_tl_b, imagePosB.tl);

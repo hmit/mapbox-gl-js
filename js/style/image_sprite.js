@@ -55,25 +55,6 @@ ImageSprite.prototype.loaded = function() {
     return !!(this.data && this.img);
 };
 
-ImageSprite.prototype.resize = function(/*gl*/) {
-    if (browser.devicePixelRatio > 1 !== this.retina) {
-        var newSprite = new ImageSprite(this.base);
-        newSprite.on('load', function() {
-            this.img = newSprite.img;
-            this.data = newSprite.data;
-            this.retina = newSprite.retina;
-        }.bind(this));
-    }
-};
-
-function SpritePosition() {}
-SpritePosition.prototype = { x: 0, y: 0, width: 0, height: 0, pixelRatio: 1, sdf: false };
-
-ImageSprite.prototype.getSpritePosition = function(name) {
-    if (!this.loaded()) return new SpritePosition();
-
-    var pos = this.data && this.data[name];
-    if (pos && this.img) return pos;
-
-    return new SpritePosition();
+ImageSprite.prototype.getIcon = function(name) {
+    return this.loaded() ? this.data[name] : null;
 };

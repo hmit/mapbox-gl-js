@@ -26,6 +26,7 @@ test('binpack', function(t) {
         }, 'packs a 10x10 square');
         t.end();
     });
+
     t.test('release single', function(t) {
         var bp = new BinPack(10, 10);
         var allocated = bp.allocate(10, 10);
@@ -36,14 +37,12 @@ test('binpack', function(t) {
             h: 10
         };
         t.deepEqual(allocated, expected, 'packs a 10x10 square');
-        t.deepEqual(bp.allocate(10, 10), {
-            x: -1,
-            y: -1
-        }, 'cannot pack another');
+        t.deepEqual(bp.allocate(10, 10), null, 'cannot pack another');
         var freed = bp.release(allocated);
         t.deepEqual(freed, undefined, 'releases a 10x10 square');
         t.end();
     });
+
     t.test('release many in same order', function(t) {
         var bp = new BinPack(100, 100);
         var allocated = [];
@@ -63,6 +62,7 @@ test('binpack', function(t) {
         t.deepEqual(allocated, expected, 'packs a 10x10 square');
         t.end();
     });
+
     t.test('release many in reverse order', function(t) {
         var bp = new BinPack(100, 100);
         var allocated = [];
@@ -82,6 +82,7 @@ test('binpack', function(t) {
         t.deepEqual(allocated, expected, 'packs a 10x10 square');
         t.end();
     });
+
     t.test('not enough room', function(t) {
         var bp = new BinPack(10, 10);
         t.deepEqual(bp.allocate(10, 10), {
@@ -90,10 +91,7 @@ test('binpack', function(t) {
             w: 10,
             h: 10
         }, 'packs a 10x10 square');
-        t.deepEqual(bp.allocate(10, 10), {
-            x: -1,
-            y: -1
-        }, 'not enough room');
+        t.deepEqual(bp.allocate(10, 10), null, 'not enough room');
         t.end();
     });
     t.end();

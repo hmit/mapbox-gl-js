@@ -11,8 +11,8 @@ function drawBackground(painter, layer, posMatrix) {
     var opacity = layer.paint['background-opacity'];
     var shader;
 
-    var imagePosA = image ? painter.spriteAtlas.getPosition(image.from, true) : null;
-    var imagePosB = image ? painter.spriteAtlas.getPosition(image.to, true) : null;
+    var imagePosA = image && painter.spriteAtlas.getPattern(image.from);
+    var imagePosB = image && painter.spriteAtlas.getPattern(image.to);
 
     if (imagePosA && imagePosB) {
         // Draw texture fill
@@ -26,8 +26,6 @@ function drawBackground(painter, layer, posMatrix) {
         gl.uniform1f(shader.u_opacity, opacity);
 
         var transform = painter.transform;
-        var sizeA = imagePosA.size;
-        var sizeB = imagePosB.size;
         var center = transform.locationCoordinate(transform.center);
         var scale = 1 / Math.pow(2, transform.zoomFraction);
 
@@ -35,12 +33,12 @@ function drawBackground(painter, layer, posMatrix) {
 
         var matrixA = mat3.create();
         mat3.scale(matrixA, matrixA, [
-            1 / (sizeA[0] * image.fromScale),
-            1 / (sizeA[1] * image.fromScale)
+            1 / (imagePosA.width * image.fromScale),
+            1 / (imagePosA.height * image.fromScale)
         ]);
         mat3.translate(matrixA, matrixA, [
-            (center.column * transform.tileSize) % (sizeA[0] * image.fromScale),
-            (center.row    * transform.tileSize) % (sizeA[1] * image.fromScale)
+            (center.column * transform.tileSize) % (imagePosA.width * image.fromScale),
+            (center.row    * transform.tileSize) % (imagePosA.height * image.fromScale)
         ]);
         mat3.rotate(matrixA, matrixA, -transform.angle);
         mat3.scale(matrixA, matrixA, [
@@ -50,12 +48,12 @@ function drawBackground(painter, layer, posMatrix) {
 
         var matrixB = mat3.create();
         mat3.scale(matrixB, matrixB, [
-            1 / (sizeB[0] * image.toScale),
-            1 / (sizeB[1] * image.toScale)
+            1 / (imagePosB.width * image.toScale),
+            1 / (imagePosB.height * image.toScale)
         ]);
         mat3.translate(matrixB, matrixB, [
-            (center.column * transform.tileSize) % (sizeB[0] * image.toScale),
-            (center.row    * transform.tileSize) % (sizeB[1] * image.toScale)
+            (center.column * transform.tileSize) % (imagePosB.width * image.toScale),
+            (center.row    * transform.tileSize) % (imagePosB.height * image.toScale)
         ]);
         mat3.rotate(matrixB, matrixB, -transform.angle);
         mat3.scale(matrixB, matrixB, [

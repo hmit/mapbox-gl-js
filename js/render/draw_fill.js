@@ -118,8 +118,8 @@ function drawFill(painter, layer, posMatrix, tile) {
 
     if (image) {
         // Draw texture fill
-        var imagePosA = painter.spriteAtlas.getPosition(image.from, true);
-        var imagePosB = painter.spriteAtlas.getPosition(image.to, true);
+        var imagePosA = painter.spriteAtlas.getPattern(image.from);
+        var imagePosB = painter.spriteAtlas.getPattern(image.to);
         if (!imagePosA || !imagePosB) return;
 
         shader = painter.patternShader;
@@ -136,14 +136,14 @@ function drawFill(painter, layer, posMatrix, tile) {
 
         var matrixA = mat3.create();
         mat3.scale(matrixA, matrixA, [
-            1 / (imagePosA.size[0] * factor * image.fromScale),
-            1 / (imagePosA.size[1] * factor * image.fromScale)
+            1 / (imagePosA.width * factor * image.fromScale),
+            1 / (imagePosA.height * factor * image.fromScale)
         ]);
 
         var matrixB = mat3.create();
         mat3.scale(matrixB, matrixB, [
-            1 / (imagePosB.size[0] * factor * image.toScale),
-            1 / (imagePosB.size[1] * factor * image.toScale)
+            1 / (imagePosB.width * factor * image.toScale),
+            1 / (imagePosB.height * factor * image.toScale)
         ]);
 
         gl.uniformMatrix3fv(shader.u_patternmatrix_a, false, matrixA);

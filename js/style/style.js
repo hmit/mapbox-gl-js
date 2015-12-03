@@ -22,8 +22,7 @@ function Style(stylesheet, animationLoop) {
     this.animationLoop = animationLoop || new AnimationLoop();
     this.dispatcher = new Dispatcher(Math.max(browser.hardwareConcurrency - 1, 1), this);
     this.glyphAtlas = new GlyphAtlas(1024, 1024);
-    this.spriteAtlas = new SpriteAtlas(512, 512);
-    this.spriteAtlas.resize(browser.devicePixelRatio);
+    this.spriteAtlas = new SpriteAtlas(512, 512, browser.devicePixelRatio);
     this.lineAtlas = new LineAtlas(256, 512);
 
     this._layers = {};

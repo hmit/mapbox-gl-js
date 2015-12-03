@@ -136,7 +136,7 @@ GlyphAtlas.prototype.addGlyph = function(id, name, glyph, buffer) {
     packHeight += (4 - packHeight % 4);
 
     var rect = this.bin.allocate(packWidth, packHeight);
-    if (rect.x < 0) {
+    if (!rect) {
         console.warn('glyph bitmap overflow');
         return { glyph: glyph, rect: null };
     }

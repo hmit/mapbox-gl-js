@@ -55,7 +55,7 @@ BinPack.prototype.allocate = function(width, height) {
 
     if (smallest < 0) {
         // There's no space left for this char.
-        return { x: -1, y: -1 };
+        return null;
     }
 
     this.free.splice(smallest, 1);
